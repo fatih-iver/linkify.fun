@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -25,6 +29,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class BackendController {
+
+    private ModelAndView modelAndView = new ModelAndView("index");
 
     private UrlValidator urlValidator = new UrlValidator();
 
@@ -37,13 +43,17 @@ public class BackendController {
 
     private Firestore db = firestoreOptions.getService();
 
+    private URL baseUrl = new URL("https://linkify.fun/");
+
+    public BackendController() throws MalformedURLException { }
+
     @RequestMapping(path = "/", method = GET)
-    public String index() {
-        return "Linkify!";
+    public ModelAndView index () {
+        return modelAndView;
     }
 
     @RequestMapping(path = "/", method = POST)
-    public ResponseEntity<Map<String, String>> shorten(@RequestParam String url) throws ExecutionException, InterruptedException {
+    public ResponseEntity<Map<String, String>> shorten(@RequestParam String url) throws ExecutionException, InterruptedException, MalformedURLException {
 
         if (StringUtils.isEmpty(url) || !urlValidator.isValid(url))
             return ResponseEntity.badRequest().build();
@@ -62,7 +72,9 @@ public class BackendController {
 
         writeResultApiFuture.get();
 
-        return ResponseEntity.ok().body(Collections.singletonMap("ID", ID));
+        URL short_url = new URL(baseUrl, ID);
+
+        return ResponseEntity.ok().body(Collections.singletonMap("short_url", short_url.toString()));
 
     }
 
