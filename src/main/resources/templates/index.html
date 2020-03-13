@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Linkify</title>
+
+</head>
+<style>
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+    
+    body {
+        display: flex;
+        background-color: #FFC107;
+    }
+    
+    form {
+        width: 100%;
+        text-align: center;
+        margin: auto;
+    }
+    
+    h1 {
+        text-align: center;
+        text-transform: uppercase;
+        color: #FF5722;
+    }
+    
+    input[type=url],
+    select {
+        width: 50%;
+        padding: 12px 20px;
+        margin: 4px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #FAFAFA;
+    }
+    
+    input[type=submit] {
+        width: 50%;
+        background-color: #FF5722;
+        color: white;
+        padding: 14px 20px;
+        margin: 4px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    input[type=submit]:hover {
+        background-color: #FF3D00;
+    }
+</style>
+
+<body>
+
+    <form method="POST" action="https://linkify.fun/">
+        <h1>LINKIFY</h1>
+        <input type="url" id="url" name="url" placeholder="URL...">
+        <input type="submit" value="Shorten">
+    </form>
+
+</body>
+
+</html>
